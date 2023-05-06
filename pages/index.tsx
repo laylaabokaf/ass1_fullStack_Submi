@@ -50,8 +50,8 @@ const Blog: React.FC<Props> = (props) => {
         </div>
       </div>
       <style jsx>{`
-        .post {
-          background: white;
+      .post {
+          background: teal;
           transition: box-shadow 0.1s ease-in;
         }
 
@@ -61,6 +61,12 @@ const Blog: React.FC<Props> = (props) => {
 
         .post + .post {
           margin-top: 2rem;
+        }
+        .pagination {
+          display: flex;
+          justify-content: center;
+          margin-top: 2rem;
+          margin-bottom: 2rem;
         }
       `}</style>
     </Layout>
