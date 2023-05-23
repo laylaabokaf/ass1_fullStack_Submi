@@ -146,4 +146,7 @@ There are going to be 5 pass/no pass tests for this part.
 ## Good luck!
 
 
-
+task2:
+When a post is created/edited, there will be an option to upload exactly one video to the post, and to remove it.
+If a video was uploaded, the user will see the filename, and won't be able to upload any more videos.
+link to video (cloudinary)

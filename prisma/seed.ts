@@ -19,7 +19,7 @@ function createNUsers(n:number):Prisma.UserCreateInput[]{
   }
   return myUsers;
 }
-const newUsers:Prisma.UserCreateInput[] =  createNUsers(1000);
+const newUsers:Prisma.UserCreateInput[] =  createNUsers(20);
 
 const userData: Prisma.UserCreateInput[] = [
   {

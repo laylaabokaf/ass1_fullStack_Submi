@@ -14,6 +14,8 @@ export const Pagination: React.FC<{ props: PaginationProps }>= ({props}) =>
     let firstPage = 0;
     const lastPage = totalPosts/10;
     let lastindex = 0;
+   
+
     if(page <5){
         firstPage = 1;
         lastindex = Math.min(9  ,lastPage );

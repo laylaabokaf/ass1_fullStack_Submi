@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
 import prisma from '../lib/prisma'
 import { Pagination } from "../components/Pagination";
-
+import { Upload } from "../components/Upload";
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.post.findMany({
     where: {
@@ -30,12 +30,16 @@ type Props = {
 
 const Blog: React.FC<Props> = (props) => {
   const [page,setPage] = useState(1);
-  const totalPosts = 1000;
+ // const [file, setFile] = useState('');
+ // const [filename, setFilename] = useState('');
+  const totalPosts = 20;
  function handlePageChange(newpage:number){
     setPage(newpage) ;
  }
+
   return (
     <Layout>
+      <Upload></Upload>
       <div className="page">
         <h1>Public Feed</h1>
         <main>
