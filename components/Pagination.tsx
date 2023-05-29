@@ -36,20 +36,21 @@ export const Pagination: React.FC<{ props: PaginationProps }>= ({props}) =>
             </button>
         );
     }
+    console.log(lastindex);
  return (
   <div>
       <button
         className={page === 1 ? "disabled" : ""}
         disabled={page === 1}
-        onClick={()=> handlePageChange(page - 1)}
+        onClick={()=>{if(page !== 1){ handlePageChange(page - 1)}}}
         >
         &laquo;
         </button>
         {pages}
         <button
-        className={page === lastPage ? "disabled" : ""}
-        disabled={page === lastPage}
-        onClick={()=> handlePageChange(page + 1)}
+        className={page >= lastindex ? "disabled" : ""}
+        disabled={page >= lastindex}
+        onClick={()=>{if(page !== lastindex){ handlePageChange(page + 1)}}}
         >
         &raquo;
         </button>

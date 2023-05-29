@@ -16,10 +16,11 @@ const Video: React.FC<{ video: VideoProps }> = ({ video }) => {
   return (
     <video
       className={`${videoPublicId === '' ? "hidden" : "block m-4"}`}
-      autoPlay
+     // autoPlay
       controls
       muted
-      src={`https://res.cloudinary.com/dmwugmqp8/video/upload/vc_auto,q_auto,w_800/${videoPublicId}`}
+      src= {videoPublicId}
+    //  src={`https://res.cloudinary.com/dmwugmqp8/video/upload/vc_auto,q_auto,w_800/${videoPublicId}`}
     ></video>
   );
 }

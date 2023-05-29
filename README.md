@@ -147,6 +147,14 @@ There are going to be 5 pass/no pass tests for this part.
 
 
 task2:
-When a post is created/edited, there will be an option to upload exactly one video to the post, and to remove it.
+1.When a post is created/edited, there will be an option to upload exactly one video to the post, and to remove it.
 If a video was uploaded, the user will see the filename, and won't be able to upload any more videos.
-link to video (cloudinary)
+link to video (cloudinary) 
+
+//done ,TODO: Add remove botten at Upload component
+
+2.send data to mangoos collection , view the data at the website , Required metadata: user, date uploaded, id of post (sqlite), link to video (cloudinary). => Done
+
+toDo:
+add remove button to create data
+when removing post send a remove req to mangoos , add the apelety yo remove video or pubish

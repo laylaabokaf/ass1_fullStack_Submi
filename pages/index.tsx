@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { findData } from "../mangoo/mangoo";
 import type { GetServerSideProps } from "next";
 import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
@@ -19,31 +19,40 @@ export const getServerSideProps: GetServerSideProps = async () => {
       },
     },
   });
+  let urls = await findData( feed.map((p)=>p.id));
+  const feedsWithUrl = feed.map((post) =>({
+    ...post,
+    videoPublicId: urls[post.id],
+  }));
   return {
-    props: { feed },
+    props: { feedsWithUrl },
   };
 };
 
+
 type Props = {
-  feed: PostProps[];
+  feedsWithUrl: PostProps[];
 };
+
+
+
 
 const Blog: React.FC<Props> = (props) => {
   const [page,setPage] = useState(1);
  // const [file, setFile] = useState('');
  // const [filename, setFilename] = useState('');
-  const totalPosts = 20;
+  const totalPosts = props.feedsWithUrl.length + 10;
  function handlePageChange(newpage:number){
     setPage(newpage) ;
  }
 
+
   return (
     <Layout>
-      <Upload></Upload>
       <div className="page">
         <h1>Public Feed</h1>
         <main>
-          {props.feed.slice((page - 1)*10,Math.min(totalPosts,page*10)).map((post) => (
+          {props.feedsWithUrl.slice((page - 1)*10,Math.min(totalPosts,page*10)).map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
             </div>

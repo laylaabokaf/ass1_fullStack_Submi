@@ -6,7 +6,7 @@ import Router from "next/router";
 import { PostProps } from "../../components/Post";
 import prisma from '../../lib/prisma'
 import { useSession } from "next-auth/react";
-
+import { deleteData } from "../../mangoo/mangoo";
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
@@ -32,9 +32,12 @@ async function publishPost(id: number): Promise<void> {
 }
 
 async function deletePost(id: number): Promise<void> {
+  //delete post data from mangoos
+ // deleteData(id);
   await fetch(`/api/post/${id}`, {
     method: "DELETE",
   });
+
   await Router.push("/")
 }
 

@@ -1,13 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
-
-
+import { sendData } from '../../../mangoo/mangoo';
 
 // POST /api/post
 // Required fields in body: title
 // Optional fields in body: content
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { title, content, session, email} = req.body;
+  const { title, content, session, email,url} = req.body;
 
   
   if (session) {
@@ -18,8 +17,13 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
         author: { connect: { email: email } },
       },
     });
-    res.json(result);
+
+ 
+   sendData(url,new Date() ,result.id ,result.authorId ?? -1) ;
+   res.json(result);
   } else {
+    // res.status(401).send({ message: 'Unauthorized' })
     res.status(401).send({ message: 'Unauthorized' })
+
   }
 }

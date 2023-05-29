@@ -28,19 +28,21 @@ export default async (req, res) => {
   console.log("data we get at uplod.js");
 
   console.log(data);
-
   const file = data?.files?.inputFile.filepath;
+
+  //const files = data?.fields?.inputFile;
+ // const file = data?.files?.inputFile;
+  //console.log(files);
+
   console.log(file);
-  try {
+
     const response = await cloudinary.v2.uploader.upload(file, {
       resource_type: "video",
       public_id: "my_video"
     });
-    return res.json(response);
-  } catch (error) {
-    console.log("Error", error);
-    return res.json(error);
-  }
+ //  const url =  cloudinary.url("my_video",{width:100,height:150});
+  // console.log(url);
+   return res.json(response);
 };
 
 

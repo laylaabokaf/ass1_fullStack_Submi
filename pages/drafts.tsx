@@ -4,6 +4,7 @@ import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
 import { useSession, getSession } from "next-auth/react";
 import prisma from '../lib/prisma'
+import { findData } from "../mangoo/mangoo";
 
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
@@ -24,13 +25,20 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
       },
     },
   });
+
+  let urls = await findData(drafts.map((p)=>p.id));
+ // console.log(urls);
+  const draftsWithUrl = drafts.map((post) =>({
+    ...post,
+    videoPublicId: urls[post.id],
+  }));
   return {
-    props: { drafts },
+    props: { draftsWithUrl },
   };
 };
 
 type Props = {
-  drafts: PostProps[];
+  draftsWithUrl: PostProps[];
 };
 
 const Drafts: React.FC<Props> = (props) => {
@@ -44,13 +52,13 @@ const Drafts: React.FC<Props> = (props) => {
       </Layout>
     );
   }
-
+console.log(props.draftsWithUrl);
   return (
     <Layout>
       <div className="page">
         <h1>My Drafts</h1>
         <main>
-          {props.drafts.map((post) => (
+          {props.draftsWithUrl.map((post) => (
             <div key={post.id} className="post">
               <Post post={post} />
             </div>
