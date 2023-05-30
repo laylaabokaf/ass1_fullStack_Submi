@@ -1,5 +1,3 @@
-//import Spinner from "./Spinner"
-//import Video from "./Video";
 
 import { useRef, useState } from "react";
 
@@ -18,51 +16,20 @@ export const Upload: React.FC<{props: UploadProps}> = ({props}) => {
   const inputRef = useRef(null); 
 
 
-  const handleRemoveVedio = () => {
-    
+  const handleRemoveVedio = (event: any) => {
     if(inputRef!==null){
+      event.preventDefault();  
       inputRef.current.value = null
-      //inputRef.current.preventDefault();
-    // setFile();
-    }
-    //setFile("");
-  
+       setFile("");
+    }  
   };
 
   const uploadVedio = (event:any) =>{
-   // const formDataCopy = new FormData();
     const file = event.target.files[0];
-   // formDataCopy.append("inputFile", file);
-   // setformData(formDataCopy);
-   console.log(file);
-  // setValue(file.filename);
-   setFile(file);
+    setFile(file);
   };
   
-  // const onChange = async (event : any) => {
-  //   setShowSpinner(true);
-  //   event.preventDefault();
-  //   const formData = new FormData();
-  //   const file = event.target.files[0];
-  //   formData.append("inputFile", file);
-  //   try {
-  //     const response = await fetch("/api/upload", {
-  //       method: "POST",
-  //       body: formData
-  //     });
-  //     const data = await response.json();
-  //     setPublicId(data.public_id);
-  //    // setRemoveFile(true);
-  //   } catch (error) {
-  //     setShowSpinner(false);
-  //   } finally {
-  //     setShowSpinner(false);
-  //     setShowVideo(true);
-  //   }
-  // };
-  //<Video video={{publicId}} />
-  // <Spinner props ={{showSpinner}} />
-  return (
+   return (
     <div>
 
       <label

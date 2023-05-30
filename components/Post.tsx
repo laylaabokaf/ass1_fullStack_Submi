@@ -21,11 +21,11 @@ const Post: React.FC<{ post: PostProps }> = ({ post }) => {
   const authorName = post.author ? post.author.name : "Unknown author";
   function hasVedio(){
     if(post.videoPublicId != undefined){
-      console.log(`post with id ${post.id} conten a video with url ${post.videoPublicId}`);
+   //   console.log(`post with id ${post.id} conten a video with url ${post.videoPublicId}`);
       return <Video video = {{publicId : post.videoPublicId}}></Video>
     }
     else{
-      console.log(`post with id ${post.id} Dont have video`)
+   //   console.log(`post with id ${post.id} Dont have video`)
       return <></>;
     }
   }

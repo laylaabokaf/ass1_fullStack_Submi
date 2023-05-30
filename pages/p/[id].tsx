@@ -6,8 +6,8 @@ import Router from "next/router";
 import { PostProps } from "../../components/Post";
 import prisma from '../../lib/prisma'
 import { useSession } from "next-auth/react";
-import { deleteData } from "../../mangoo/mangoo";
-
+import { deleteData, findData } from "../../mangoo/mangoo";
+import Video from "../../components/Video";
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
@@ -19,8 +19,15 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
       },
     },
   });
+  let url = await findData([post?.id??-1]);
+  console.log(url);
+  const postWithUrl = {
+    ...post,
+    videoPublicId: url[post?.id??-1]}
+ // console.log( postWithUrl.videoPublicId);
   return {
-    props: post ?? { author: { name: "Me" } }
+    props: postWithUrl ?? { author: { name: "Me" } }
+  
   };
 };
 
@@ -32,8 +39,7 @@ async function publishPost(id: number): Promise<void> {
 }
 
 async function deletePost(id: number): Promise<void> {
-  //delete post data from mangoos
- // deleteData(id);
+ // await deleteData(id); ==>Dont work
   await fetch(`/api/post/${id}`, {
     method: "DELETE",
   });
@@ -46,11 +52,24 @@ const Post: React.FC<PostProps> = (props) => {
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
+  //console.log(props);
   const userHasValidSession = Boolean(session);
   const postBelongsToUser = session?.user?.email === props.author?.email;
   let title = props.title;
   if (!props.published) {
     title = `${title} (Draft)`;
+  }
+
+  function hasVedio(){
+
+    if(props.videoPublicId != undefined){
+       console.log(`post with id ${props.id} conten a video with url ${props.videoPublicId}`);
+      return <Video video = {{publicId : props.videoPublicId}}></Video>
+    }
+    else{
+      console.log(`post with id ${props.id} Dont have video`)
+      return <></>;
+    }
   }
 
   return (
@@ -59,6 +78,7 @@ const Post: React.FC<PostProps> = (props) => {
         <h2>{title}</h2>
         <p>By {props?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={props.content} />
+        {hasVedio()}
         {!props.published && userHasValidSession && postBelongsToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
         )}

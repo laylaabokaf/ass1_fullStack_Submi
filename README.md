@@ -156,5 +156,5 @@ link to video (cloudinary)
 2.send data to mangoos collection , view the data at the website , Required metadata: user, date uploaded, id of post (sqlite), link to video (cloudinary). => Done
 
 toDo:
-add remove button to create data
-when removing post send a remove req to mangoos , add the apelety yo remove video or pubish
+add remove button to create data , Done
+when removing post send a remove req to mangoos , add the abillety to remove video or pubish , set p ip
