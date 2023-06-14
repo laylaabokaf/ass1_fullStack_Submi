@@ -39,6 +39,8 @@ CREATE TABLE "sessions" (
 -- CreateTable
 CREATE TABLE "users" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "username" TEXT,
+    "hashedPassword" TEXT,
     "name" TEXT,
     "email" TEXT,
     "email_verified" DATETIME,

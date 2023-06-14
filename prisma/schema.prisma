@@ -49,7 +49,9 @@ model Session {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
+  username         String?
+  hashedPassword   String?
   name          String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
