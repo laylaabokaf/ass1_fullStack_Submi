@@ -9,6 +9,9 @@ function createNUsers(n:number):Prisma.UserCreateInput[]{
     myUsers.push({
       name: `user number ${i+1}`,
       email: `userEmail${i+1}@app.com`,
+      // password : `user${i}pass`,
+
+
       posts: {create: Array.from({ length: 1 }, (_, ) => ({
         title: `post number ${i+1}`,
         content: `Content of post ${i+1}`,

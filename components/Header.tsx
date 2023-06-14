@@ -49,6 +49,7 @@ const Header: React.FC = () => {
             Feed
           </a>
         </Link>
+        
         <style jsx>{`
           .bold {
             font-weight: bold;
@@ -88,6 +89,13 @@ const Header: React.FC = () => {
         <Link href="/api/auth/signin" legacyBehavior>
           <a data-active={isActive("/signup")}>Log in</a>
         </Link>
+        <Link href="login" legacyBehavior>
+          <a data-active={isActive("/signup")}>Log in1 </a>
+        </Link>
+        <Link href="signup" legacyBehavior>
+          <a data-active={isActive("/signin")}>sign up</a>
+        </Link>
+        
         <style jsx>{`
           a {
             text-decoration: none;
