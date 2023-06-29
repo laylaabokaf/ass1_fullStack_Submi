@@ -47,7 +47,7 @@ export const getUsernameFromCookies = async (request: any) => {
   return null;
 }
 
-const onlyLoggedInURLs = ['drafts', 'create', 'api/post', 'api/publish', 'api/upload']
+const onlyLoggedInURLs = ['drafts', 'create', 'api/post', 'api/publish', 'api/upload' , 'profile']
 
 const checkToken = async (request: Request) => {
   console.log("check token ..");

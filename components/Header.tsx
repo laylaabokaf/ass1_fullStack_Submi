@@ -177,9 +177,11 @@ const Header: React.FC = () => {
     );
     right = (
       <div className="right">
-        <p>
-          {loginDetails.name}
-        </p>
+       <Link href="/profile" legacyBehavior>
+          <button>
+            <a>My profile</a>
+          </button>
+        </Link>
         <Link href="/create" legacyBehavior>
           <button>
             <a>New post</a>
