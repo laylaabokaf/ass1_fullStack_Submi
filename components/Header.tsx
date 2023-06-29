@@ -111,9 +111,8 @@ const Header: React.FC = () => {
   if (!loginDetails) { //!loged in
     right = (
       <div className="right">
-        
         <Link href="login" legacyBehavior>
-          <a data-active={isActive("/signup")}>Log in1 </a>
+          <a data-active={isActive("/signup")}>Log in </a>
         </Link>
         <Link href="signup" legacyBehavior>
           <a data-active={isActive("/signin")}>sign up</a>
@@ -179,7 +178,7 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <p>
-          {!loginDetails.name} ({!loginDetails.email})
+          {loginDetails.name}
         </p>
         <Link href="/create" legacyBehavior>
           <button>
