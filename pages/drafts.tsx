@@ -15,18 +15,18 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   //   res.statusCode = 403;
   //   return { props: { drafts: [] } };
   // }
-  
+  //let currentUser = Cookies.get("LogInToken");
   let currentUser = req.cookies.LogInToken;
-  let logindata:loginDetailsProp;
+ // let logindata:loginDetailsProp;
    if (!currentUser) {
        res.statusCode = 403;
        return { props: { drafts: [] } };
      }
-     logindata =JSON.parse(currentUser)
-
+    let logindata =JSON.parse(currentUser)
+console.log(`drefts email is ${ logindata.user.email }`)
   const drafts = await prisma.post.findMany({
     where: {
-      author: { email: logindata.email },
+      author: { email: logindata.user.email },
       published: false,
     },
     include: {

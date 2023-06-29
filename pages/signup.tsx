@@ -62,11 +62,11 @@ const LoginPage: React.FC = () => {
     console.log(all_error[3]);
 
     //this is a test for backend ,the singiup page not done yet
-  setUsername("layla_6");
-  setPassword("126");
-  setEmail("layla6@gmail.com");
+  //setUsername("layla_6");
+  //setPassword("126");
+  //setEmail("layla6@gmail.com");
   //   const [errorFlag, setErrorFlag] = useState(false);
-  setName("layla6");
+  //setName("layla6");
     console.log(`username: ${username} , name: ${name} , password: ${password}`);
   //send data to singup api
   // username, password ,email , name 
@@ -82,10 +82,8 @@ const LoginPage: React.FC = () => {
         console.log('Sign up successful!');
         await Router.push("/login");
       } else {
-        //const errorData = await response.json();
-        //const errorMessage = errorData.error;
-        console.log('Sign up failed. Error:');
-      //  setSignupFailMessage(errorMessage);
+       
+        console.log('Error:');
       }
   
   };
@@ -128,8 +126,8 @@ const LoginPage: React.FC = () => {
 
               type="email"
               id="email"
-              value={password}
-              onChange={handlePasswordChange}
+              value={email}
+              onChange={handleEmailChange}
               style={{ flex: 1 }}
             />                        </div>
           <div style={{ display: 'flex', marginBottom: '1rem', width: '25%' }}>
@@ -139,12 +137,12 @@ const LoginPage: React.FC = () => {
 
               type="name"
               id="name"
-              value={password}
-              onChange={handlePasswordChange}
+              value={name}
+              onChange={handleNameChange}
               style={{ flex: 1 }}
             /></div>
           {/* </div> */}
-          <button type="submit" style={{ padding: '0.5rem 1rem', width: '25%' }}>Login</button>
+          <button type="submit" style={{ padding: '0.5rem 1rem', width: '25%' }}>Sign Up</button>
         </form>
       </div>
     </Layout>
