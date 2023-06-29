@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { findData } from "../mangoo/mangoo";
 import type { GetServerSideProps } from "next";
 import Layout from "../components/Layout";
@@ -6,6 +6,10 @@ import Post, { PostProps } from "../components/Post";
 import prisma from '../lib/prisma'
 import { Pagination } from "../components/Pagination";
 import { Upload } from "../components/Upload";
+import Cookies from 'js-cookie';
+import { getCookie } from "cookies-next";
+import { jwtVerify } from "jose";
+//import { getUserInfoByCookie } from "./_app";
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.post.findMany({
     where: {
@@ -24,25 +28,63 @@ export const getServerSideProps: GetServerSideProps = async () => {
     ...post,
     videoPublicId: urls[post.id],
   }));
+  console.log();
+
+ // useEffect(async ()=> {
+  // console.log("start sertching for login cookie ..")
+  
+  //   const cookieUserToken =await Cookies.get("LogInToken");
+  //   console.log(`token we git at index.tsx is ${cookieUserToken}` );
+  //   if(cookieUserToken){
+  //     const decodedToken = await jwtVerify(cookieUserToken, new TextEncoder().encode(process.env.SECRET));
+  //     //  console.log(`decodedToken ${decodedToken.payload.username}`);
+        
+  //   let email = decodedToken.payload?.email?.toString();
+  //   console.log(`token we git at index.tsx is ${cookieUserToken} user email is ${email}`);
+  //   }
+    
+ //  })
+ //console.log(await getUserInfoByCookie());
+  //let userLoged =await  getUserInfoByCookie();
+ //let userLoged ={}
   return {
-    props: { feedsWithUrl },
+    props: { feedsWithUrl 
+      //, userLoged
+      },
   };
 };
 
 
 type Props = {
   feedsWithUrl: PostProps[];
+//  userLoged: User
 };
 
 
+export type userDetails = {
+  token?: string,
+  email?: string,
+  username?: string,
+  name?: string,
+  Id?: Number
+}
 
-
+ 
+  
 const Blog: React.FC<Props> = (props) => {
   const [page,setPage] = useState(1);
- // const [file, setFile] = useState('');
- // const [filename, setFilename] = useState('');
+//  const [userLogedIn,setUserLogedIn] = useState<userDetails|undefined>(undefined);
+
+// useEffect(()=>{
+//  // Cookies.set("LogInToken",data.token)
+//   const userToken = Cookies.get("LogInToken");
+//   if(userToken){
+//     console.log(`user token : ${userToken}`)
+//   }
+// },[]);
   const totalPosts = props.feedsWithUrl.length + 10;
- function handlePageChange(newpage:number){
+  //console.log(props.userLoged);
+  function handlePageChange(newpage:number){
     setPage(newpage) ;
  }
 

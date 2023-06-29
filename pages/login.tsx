@@ -1,12 +1,19 @@
 import { useState } from 'react';
 import Layout from "../components/Layout";
+import Router from 'next/router';
 // import Cookies from 'js-cookie';
+import Cookies from 'js-cookie';
+import { NextResponse } from 'next/server';
+import { setCookie } from 'cookies-next';
+import { getCookie } from 'cookies-next';
+import { data } from 'autoprefixer';
 
-
-const LoginPage: React.FC = () => {
+const LoginPage: React.FC =  () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loginFail, setloginFail] = useState(false);
+
+
 
   const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
@@ -18,39 +25,42 @@ const LoginPage: React.FC = () => {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
     // console.log(password)
-    ;};
+  
     
-//  const response = await fetch('/api/auth/login', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({ username, password }),
-//       });
-    
-//     if (response.status === 200) {
-//         const data = await response.json();
-//         const loginDetails = {token: data.token,
-//                               username: data.username,
-//                               name: data.name,
-//                               userId: data.id,
-//                               email: data.email
-//         }
-//         Cookies.set('loginDetails',JSON.stringify(loginDetails));
-//         await Router.push("/");
-//     }
-//     else {
-//         const errorData = await response.json();
-//         const errorMessage = errorData.error;
-//         console.log('Login failed. Error:', errorMessage);
-//         setloginFail(true);
-//         // TODO: Handle login failure
-//     }
 
-//     // Reset form fields
-//     setUsername('');
-//     setPassword('');
-//   };
+ const response = await fetch('/api/auth/logIn', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+      //response.headers.set(,);
+      //save user data 
+   //   response.headers()
+   // Cookies.set('token',JSON.stringify(token));
+   if (response.status === 200) {
+    const data = await response.json();
+    let token = data.token;
+    let username = data.username;
+    let name = data.name;
+    let id = data.id;
+    let email = data.email;
+
+   // setCookie('token', data.token)
+   // setCookie('username',data.username)
+   Cookies.set("LogInToken",JSON.stringify({user: {username: username, email: email,name:name,id: id,token: token}}))
+  }
+  
+ // console.log(getCookie('token'));
+      await Router.push("/");
+    };  
+  
+
+    // Reset form fields
+    // setUsername('');
+    // setPassword('');
+
 
 return(
     <Layout>
@@ -87,7 +97,7 @@ return(
     </div>
     </Layout>
 
- )
+ );
 
 
 

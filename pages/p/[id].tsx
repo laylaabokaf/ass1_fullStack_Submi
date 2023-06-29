@@ -5,7 +5,6 @@ import Layout from "../../components/Layout";
 import Router from "next/router";
 import { PostProps } from "../../components/Post";
 import prisma from '../../lib/prisma'
-import { useSession } from "next-auth/react";
 import { deleteData, findData } from "../../mangoo/mangoo";
 import Video from "../../components/Video";
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
@@ -48,13 +47,13 @@ async function deletePost(id: number): Promise<void> {
 }
 
 const Post: React.FC<PostProps> = (props) => {
-  const { data: session, status } = useSession();
   if (status === 'loading') {
     return <div>Authenticating ...</div>;
   }
   //console.log(props);
-  const userHasValidSession = Boolean(session);
-  const postBelongsToUser = session?.user?.email === props.author?.email;
+  const loginDetails = undefined; //TO-DO
+  const userLoggedIn = Boolean(loginDetails);
+  const postBelongsToUser = loginDetails === props.author?.email;
   let title = props.title;
   if (!props.published) {
     title = `${title} (Draft)`;
@@ -79,10 +78,10 @@ const Post: React.FC<PostProps> = (props) => {
         <p>By {props?.author?.name || "Unknown author"}</p>
         <ReactMarkdown children={props.content} />
         {hasVedio()}
-        {!props.published && userHasValidSession && postBelongsToUser && (
+        {!props.published  && postBelongsToUser && (
           <button onClick={() => publishPost(props.id)}>Publish</button>
         )}
-        {userHasValidSession && postBelongsToUser && (
+        {  postBelongsToUser && (
           <button onClick={() => deletePost(props.id)}>Delete</button>
         )}
       </div>

@@ -6,10 +6,11 @@ import { sendData } from '../../../mangoo/mangoo';
 // Required fields in body: title
 // Optional fields in body: content
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-  const { title, content, session, email,url} = req.body;
-
-  
-  if (session) {
+  const {title, content, loginDetails, email,url} = req.body;
+  const login = req.cookies.LogInToken 
+   console.log("post hundle email: ")
+  console.log(email);
+  if (loginDetails) {
     const result = await prisma.post.create({
       data: {
         title: title,
@@ -22,6 +23,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
    sendData(url,new Date() ,result.id ,result.authorId ?? -1) ;
    res.json(result);
   } else {
+    console.log("post error");
     // res.status(401).send({ message: 'Unauthorized' })
     res.status(401).send({ message: 'Unauthorized' })
 

@@ -1,22 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import Layout from "../components/Layout";
 import Post, { PostProps } from "../components/Post";
-import { useSession, getSession } from "next-auth/react";
+//import { useSession, getSession } from "next-auth/react";
 import prisma from '../lib/prisma'
 import { findData } from "../mangoo/mangoo";
+import { loginDetailsProp } from "../components/Header";
+import Cookies from "js-cookie";
 
 
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  const session = await getSession({ req });
-  if (!session) {
-    res.statusCode = 403;
-    return { props: { drafts: [] } };
-  }
+  //const session = await getSession({ req });
+  // if (!session) {
+  //   res.statusCode = 403;
+  //   return { props: { drafts: [] } };
+  // }
+  
+  let currentUser = req.cookies.LogInToken;
+  let logindata:loginDetailsProp;
+   if (!currentUser) {
+       res.statusCode = 403;
+       return { props: { drafts: [] } };
+     }
+     logindata =JSON.parse(currentUser)
 
   const drafts = await prisma.post.findMany({
     where: {
-      author: { email: session.user?.email },
+      author: { email: logindata.email },
       published: false,
     },
     include: {
@@ -42,9 +52,26 @@ type Props = {
 };
 
 const Drafts: React.FC<Props> = (props) => {
-  const {data: session}= useSession();
+  const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
+  
+  useEffect(() => {
+    if (!loginDetails) {
+        const user = Cookies.get("LogInToken");
+        console.log(user);
+        if(user){
+         let parsedUser =  JSON.parse(user);
+        const userLogedIn: loginDetailsProp = {};
+        userLogedIn.email = parsedUser.user.email;
+        userLogedIn.username = parsedUser.user.username;
+        userLogedIn.name = parsedUser.user.name;
+        userLogedIn.id = parsedUser.user.id;
+        setLoginDetails(userLogedIn);
+         }
+    }
+},[]);
+  
 
-  if (!session) {
+  if (!loginDetails) {
     return (
       <Layout>
         <h1>My Drafts</h1>

@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Router from "next/router";
-import { useSession } from "next-auth/react";
+//import { useSession } from "next-auth/react";
 import { Upload } from "../components/Upload";
 import { sendData } from "../mangoo/mangoo";
 import FormData from "form-data";
+import { loginDetailsProp } from "../components/Header";
+import Cookies from "js-cookie";
 const Draft: React.FC = () => {
   //const [myFormData, setmyFormData] = useState<FormData>();
   const [title, setTitle] = useState("");
   const [file,setFile] = useState<File>();
   const [formData, setFormData] = useState(new FormData());
   const [content, setContent] = useState("");
-  const { data: session, status } = useSession(); 
+  //const { data: session, status } = useSession();
+  const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
+  
+  useEffect(() => {
+    if (!loginDetails) {
+        const user = Cookies.get("LogInToken");
+        console.log(user);
+        if(user){
+         let parsedUser =  JSON.parse(user);
+        const userLogedIn: loginDetailsProp = {};
+         userLogedIn.email = parsedUser.user.email;
+         userLogedIn.username = parsedUser.user.username;
+         userLogedIn.name = parsedUser.user.name;
+         userLogedIn.id = parsedUser.user.id;
+        setLoginDetails(userLogedIn);
+        console.log("create user update")
+        console.log(user);
+         }
+    }
+},[]); 
 //  if(myFormData === undefined){
 //  setmyFormData(new FormData());}
  // const formData = new FormData();
-  let email = session?.user?.email;
+  let email = loginDetails?.email;
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log(file);
@@ -34,7 +55,8 @@ const Draft: React.FC = () => {
       }
     }
     try {
-      const body = { title, content, session, email,url };
+      console.log(loginDetails);
+      const body = { title, content, loginDetails, email,url };
       //upload data to mangoo before post
      let result =  await fetch(`/api/post`, {
         method: "POST",

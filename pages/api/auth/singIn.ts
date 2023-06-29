@@ -8,7 +8,9 @@ import prisma from '../../../lib/prisma'
 
 
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
-    const { username, password ,email , name } = req.body;
+console.log("singin api");
+if (req.method === 'POST'){
+  const { username, password ,email , name } = req.body;
     //find if user allready exist
     const existUser = await prisma.user.findMany({
         where: {
@@ -42,6 +44,7 @@ if(!hashedPassword){
 }
 
 //finally , add user to dataBass
+console.log(`password for user ${name} is ${password}`)
 const newUser = await prisma.user.create({
     data: {
       username: username,
@@ -50,5 +53,14 @@ const newUser = await prisma.user.create({
       name: name,
     },
   });
-
+  if(newUser){
+    console.log(newUser);
+    res.status(200).send(newUser)
+  }
+  else{
+    return res.status(401).json({
+        error: 'Sign up failed'
+      })
+  }
+}
 }

@@ -1,14 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { signOut, useSession } from "next-auth/react";
+import Router, { useRouter } from 'next/router';
+import Cookies from "js-cookie";
+//import { request } from "http";
+//import { getUserInfoByCookie } from "../pages/_app";
+export type loginDetailsProp = {
+ // token?: string,
+  email?: string,
+  username?: string,
+  name?: string,
+  id?: Number
+}
 
 const Header: React.FC = () => {
   const router = useRouter();
   const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
-
-  const {data: session, status} = useSession();
+  router.pathname === pathname;
+  const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
+  
+  useEffect(() => {
+    if (!loginDetails) {
+        const user = Cookies.get("LogInToken");
+        console.log(user);
+        if(user){
+         let parsedUser =  JSON.parse(user);
+        const userLogedIn: loginDetailsProp = {};
+        userLogedIn.email = parsedUser.user.email;
+        userLogedIn.username = parsedUser.user.username;
+        userLogedIn.name = parsedUser.user.name;
+        userLogedIn.id = parsedUser.user.id;;
+        setLoginDetails(userLogedIn);
+         }
+    }
+},[]);
+  //const {data: session, status} = useSession();
 
   let left = (
     <div className="left">
@@ -41,7 +66,7 @@ const Header: React.FC = () => {
 
   let right = null;
 
-  if (status === 'loading') {
+  if (!loginDetails) {
     left = (
       <div className="left">
         <Link href="/" legacyBehavior>
@@ -83,12 +108,10 @@ const Header: React.FC = () => {
     );
   }
 
-  if (!session) {
+  if (!loginDetails) { //!loged in
     right = (
       <div className="right">
-        <Link href="/api/auth/signin" legacyBehavior>
-          <a data-active={isActive("/signup")}>Log in</a>
-        </Link>
+        
         <Link href="login" legacyBehavior>
           <a data-active={isActive("/signup")}>Log in1 </a>
         </Link>
@@ -121,7 +144,7 @@ const Header: React.FC = () => {
     );
   }
 
-  if (session) {
+  if (loginDetails) { //loged in
     left = (
       <div className="left">
         <Link href="/" legacyBehavior>
@@ -156,14 +179,16 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <p>
-          {session.user?.name} ({session.user?.email})
+          {!loginDetails.name} ({!loginDetails.email})
         </p>
         <Link href="/create" legacyBehavior>
           <button>
             <a>New post</a>
           </button>
         </Link>
-        <button onClick={() => signOut()}>
+        <button onClick={()=>{Cookies.remove("LogInToken") 
+        setLoginDetails(null)
+        Router.push("/")}}>
           <a>Log out</a>
         </button>
         <style jsx>{`
