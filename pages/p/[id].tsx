@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GetServerSideProps } from "next";
 import ReactMarkdown from "react-markdown";
 import Layout from "../../components/Layout";
@@ -7,6 +7,8 @@ import { PostProps } from "../../components/Post";
 import prisma from '../../lib/prisma'
 import { deleteData, findData } from "../../mangoo/mangoo";
 import Video from "../../components/Video";
+import { loginDetailsProp } from "../../components/Header";
+import Cookies from "js-cookie";
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const post = await prisma.post.findUnique({
     where: {
@@ -47,13 +49,27 @@ async function deletePost(id: number): Promise<void> {
 }
 
 const Post: React.FC<PostProps> = (props) => {
-  if (status === 'loading') {
-    return <div>Authenticating ...</div>;
-  }
+  const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
+  
+  useEffect(() => {
+    if (!loginDetails) {
+        const user = Cookies.get("LogInToken");
+        console.log(user);
+        if(user){
+         let parsedUser =  JSON.parse(user);
+        const userLogedIn: loginDetailsProp = {};
+         userLogedIn.email = parsedUser.user.email;
+         userLogedIn.username = parsedUser.user.username;
+         userLogedIn.name = parsedUser.user.name;
+         userLogedIn.id = parsedUser.user.id;
+        setLoginDetails(userLogedIn);
+         }
+    }
+},[]);
   //console.log(props);
-  const loginDetails = undefined; //TO-DO
-  const userLoggedIn = Boolean(loginDetails);
-  const postBelongsToUser = loginDetails === props.author?.email;
+ // const loginDetails = undefined; //TO-DO
+  //const userLoggedIn = Boolean(loginDetails);
+  const postBelongsToUser = loginDetails?.email === props.author?.email;
   let title = props.title;
   if (!props.published) {
     title = `${title} (Draft)`;

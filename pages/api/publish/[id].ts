@@ -7,24 +7,25 @@ import Cookies from 'js-cookie';
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id;
   //const session = await getSession({ req })
-  const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
+//   const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
   
-  useEffect(() => {
-    if (!loginDetails) {
-        const user = Cookies.get("LogInToken");
-        console.log(user);
-        if(user){
-         let parsedUser =  JSON.parse(user);
-        const userLogedIn: loginDetailsProp = {};
-         userLogedIn.email = parsedUser.email;
-         userLogedIn.username = parsedUser.username;
-         userLogedIn.name = parsedUser.name;
-         userLogedIn.id = parsedUser.id;
-        setLoginDetails(userLogedIn);
-         }
-    }
-},[]);
-  if (loginDetails) {
+//   useEffect(() => {
+//     if (!loginDetails) {
+//         const user = Cookies.get("LogInToken");
+//         console.log(user);
+//         if(user){
+//          let parsedUser =  JSON.parse(user);
+//         const userLogedIn: loginDetailsProp = {};
+//          userLogedIn.email = parsedUser.user.email;
+//          userLogedIn.username = parsedUser.user.username;
+//          userLogedIn.name = parsedUser.user.name;
+//          userLogedIn.id = parsedUser.user.id;
+//         setLoginDetails(userLogedIn);
+//          }
+//     }
+// },[]);
+const login = req.cookies.LogInToken
+  if (login) {
     const post = await prisma.post.update({
       where: { id: Number(postId) },
       data: { published: true },
