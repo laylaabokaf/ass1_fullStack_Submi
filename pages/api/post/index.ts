@@ -11,6 +11,7 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
    console.log("post hundle email: ")
   console.log(email);
   if (loginDetails) {
+    
     const result = await prisma.post.create({
       data: {
         title: title,

@@ -14,10 +14,19 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
   if (req.method === "DELETE") {
     if (login) {
+      const postAuther = await prisma.post.findMany({
+        where: {
+          id:Number(postId) 
+        }});
+
+       const login_Json = JSON.parse(login);
+       if( postAuther[0].authorId === login_Json.user?.id){
+
       const post = await prisma.post.delete({
         where: { id: Number(postId) },
       });
       res.json(post);
+    }
     } else {
       console.log("post id.ts error")
       res.status(401).send({ message: 'Unauthorized' })

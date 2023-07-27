@@ -6,31 +6,22 @@ import Cookies from 'js-cookie';
 // PUT /api/publish/:id
 export default async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id;
-  //const session = await getSession({ req })
-//   const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
-  
-//   useEffect(() => {
-//     if (!loginDetails) {
-//         const user = Cookies.get("LogInToken");
-//         console.log(user);
-//         if(user){
-//          let parsedUser =  JSON.parse(user);
-//         const userLogedIn: loginDetailsProp = {};
-//          userLogedIn.email = parsedUser.user.email;
-//          userLogedIn.username = parsedUser.user.username;
-//          userLogedIn.name = parsedUser.user.name;
-//          userLogedIn.id = parsedUser.user.id;
-//         setLoginDetails(userLogedIn);
-//          }
-//     }
-// },[]);
+
 const login = req.cookies.LogInToken
+if (req.method === "PUT") {
   if (login) {
+    const postAuther = await prisma.post.findMany({
+      where: {
+        id:Number(postId) 
+      }});
+
+     const login_Json = JSON.parse(login);
+     if( postAuther[0].authorId === login_Json.user?.id){
     const post = await prisma.post.update({
       where: { id: Number(postId) },
       data: { published: true },
     });
-    res.json(post);
+    res.json(post);} }
   } else {
     res.status(401).send({ message: 'Unauthorized' })
   }
