@@ -9,6 +9,11 @@ import { Upload } from "../components/Upload";
 import Cookies from 'js-cookie';
 import { getCookie } from "cookies-next";
 import { jwtVerify } from "jose";
+import LogRocket from 'logrocket';
+LogRocket.init('bewg9k/posts-app');
+
+LogRocket.identify('30', {
+  user: 'username":"user3","email":"user3@gmail.com","name":"user3","id":30,"token":"eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InVzZXIzQGdtYWlsLmNvbSIsImlkIjozMCwidXNlcm5hbWUiOiJ1c2VyMyIsIm5hbWUiOiJ1c2VyMyIsImlhdCI6MTY5MDM3Nzg1N30.OQLugwk7GvRvDbEv1buXyRke7v0dOFG9RdIyOwpQIFE"'});
 //import { getUserInfoByCookie } from "./_app";
 export const getServerSideProps: GetServerSideProps = async () => {
   const feed = await prisma.post.findMany({

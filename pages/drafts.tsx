@@ -23,7 +23,7 @@ export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
        return { props: { drafts: [] } };
      }
     let logindata =JSON.parse(currentUser)
-console.log(`drefts email is ${ logindata.user.email }`)
+    console.log( logindata)
   const drafts = await prisma.post.findMany({
     where: {
       author: { email: logindata.user.email },

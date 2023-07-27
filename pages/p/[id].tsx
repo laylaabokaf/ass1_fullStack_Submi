@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     },
   });
   let url = await findData([post?.id??-1]);
-  console.log(url);
+  //console.log(url);
   const postWithUrl = {
     ...post,
     videoPublicId: url[post?.id??-1]}
@@ -50,11 +50,11 @@ async function deletePost(id: number): Promise<void> {
 
 const Post: React.FC<PostProps> = (props) => {
   const [loginDetails, setLoginDetails] = useState<loginDetailsProp | null>(null);
-  
+  console.log("post id api")
   useEffect(() => {
     if (!loginDetails) {
-        const user = Cookies.get("LogInToken");
-        console.log(user);
+    console.log("run useeffect");
+        const user =  Cookies.get("LogInToken");
         if(user){
          let parsedUser =  JSON.parse(user);
         const userLogedIn: loginDetailsProp = {};
@@ -63,13 +63,15 @@ const Post: React.FC<PostProps> = (props) => {
          userLogedIn.name = parsedUser.user.name;
          userLogedIn.id = parsedUser.user.id;
         setLoginDetails(userLogedIn);
+       
          }
     }
-},[]);
+}),[];
   //console.log(props);
  // const loginDetails = undefined; //TO-DO
   //const userLoggedIn = Boolean(loginDetails);
   const postBelongsToUser = loginDetails?.email === props.author?.email;
+  console.log( loginDetails?.email)
   let title = props.title;
   if (!props.published) {
     title = `${title} (Draft)`;

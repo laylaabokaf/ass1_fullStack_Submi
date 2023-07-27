@@ -8,6 +8,9 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
   
   const login = req.cookies.LogInToken  //const loggedUserJSON = req.cookies("token")
   //const session = await getSession({ req })
+  console.log("Debag : send login deltels to Delete :");
+  console.log(login);
+  console.log(`post number ${postId}`);
 
   if (req.method === "DELETE") {
     if (login) {
