@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
-
+import {csrf} from '../../../scrf'
 
 // DELETE /api/post/:id
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+ async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id;
   
   const login = req.cookies.LogInToken  //const loggedUserJSON = req.cookies("token")
@@ -37,3 +37,5 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
     );
   }
 }
+
+export default csrf(handle);

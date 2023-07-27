@@ -15,3 +15,4 @@ lets publish a privet post !!
    LogInToken={"user":{"username":"user3","email":"user3@gmail.com","name":"user3","id":30}}; Path=/; Expires=Fri, 26 Jul 2024 09:14:43 GMT;
    you can get user cookie also by url ..
 2. send PUT request to http://localhost:3000/api/publish/33
+

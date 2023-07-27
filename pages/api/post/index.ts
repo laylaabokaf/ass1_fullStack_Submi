@@ -1,11 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
 import { sendData } from '../../../mangoo/mangoo';
+import {csrf} from '../../../scrf'
 
 // POST /api/post
 // Required fields in body: title
 // Optional fields in body: content
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+ async function handle(req: NextApiRequest, res: NextApiResponse) {
   const {title, content, loginDetails, email,url} = req.body;
   const login = req.cookies.LogInToken 
    console.log("post hundle email: ")
@@ -30,3 +31,4 @@ export default async function handle(req: NextApiRequest, res: NextApiResponse) 
 
   }
 }
+export default csrf(handle);

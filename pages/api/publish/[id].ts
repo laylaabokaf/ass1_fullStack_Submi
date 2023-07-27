@@ -3,8 +3,9 @@ import prisma from '../../../lib/prisma'
 import { loginDetailsProp } from '../../../components/Header';
 import { useEffect, useState } from 'react';
 import Cookies from 'js-cookie';
+import { csrf } from '../../../scrf';
 // PUT /api/publish/:id
-export default async function handle(req: NextApiRequest, res: NextApiResponse) {
+async function handle(req: NextApiRequest, res: NextApiResponse) {
   const postId = req.query.id;
 
 const login = req.cookies.LogInToken
@@ -26,3 +27,5 @@ if (req.method === "PUT") {
     res.status(401).send({ message: 'Unauthorized' })
   }
 }
+
+export default csrf(handle);

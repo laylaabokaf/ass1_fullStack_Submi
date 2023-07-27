@@ -7,6 +7,8 @@ import { NextResponse } from 'next/server';
 import { setCookie } from 'cookies-next';
 import { getCookie } from 'cookies-next';
 import { data } from 'autoprefixer';
+import  {setup} from '../scrf';
+import { GetServerSideProps } from "next";
 
 const LoginPage: React.FC =  () => {
   const [username, setUsername] = useState('');
@@ -102,5 +104,11 @@ return(
 
 
 }
+//export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
 
+export const getServerSideProps  = setup(async ({  }) => {
+  return {
+    props: {},
+  };
+ });
 export default LoginPage;

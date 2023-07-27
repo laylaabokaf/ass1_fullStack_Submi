@@ -2,7 +2,7 @@
 //1.cheack if user exist 
 //2.cheack if password is true
 //3.set token 
-
+import cookie from "cookie";
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
 import {SignJWT} from 'jose'
@@ -66,7 +66,16 @@ if(correctPass){
 
        // res.cookies.set(cookieOptions);
     //   Cookies.set("LogInToken",token)
-
+  //   res.setHeader(
+  //     'Set-Cookie',
+  //       cookie.serialize('token', String(token), {
+  //       httpOnly: true,
+  //       secure: process.env.NODE_ENV !== 'development',
+  //       maxAge: 60 * 60 * 24 * 7, // 1 week
+  //       sameSite: 'strict',
+  //       path: '/'
+  //     })
+  //  )
         res.status(200).send({... userForToken , token: token})
 
       }
