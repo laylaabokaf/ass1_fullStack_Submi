@@ -25,23 +25,23 @@
 //import { jwtVerify} from 'jose';  
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-//import { loginDetailsProp } from './pages/_app';
-import { jwtVerify } from 'jose';
+////import { loginDetailsProp } from './pages/_app';
+//import {  } from 'jose';
 
 
 export const getUsernameFromCookies = async (request: any) => {
    let username : String | undefined | null
   let token = request.cookies.get('LogInToken').value;
   if (token !== undefined) {
-    const decodedToken = await jwtVerify(token, new TextEncoder().encode(process.env.SECRET));
+    //const decodedToken = await jwtVerify(token, new TextEncoder().encode(process.env.SECRET));
   //  console.log(`decodedToken ${decodedToken.payload.username}`);
-    return decodedToken.payload?.email?.toString();
+    //return decodedToken.payload?.email?.toString();
   } else if (request.headers.get("Authorization")?.startsWith("Bearer ")) {
     let token = request.headers.get("Authorization")?.substring(7);
     if (token !== undefined) {
-      const decodedToken = await jwtVerify(token, new TextEncoder().encode(process.env.SECRET));
+     // const decodedToken = await jwtVerify(token, new TextEncoder().encode(process.env.SECRET));
     //  console.log(`decodedToken ${decodedToken.payload.username}`);
-    return decodedToken.payload?.email?.toString();
+   // return decodedToken.payload?.email?.toString();
     }
   }
   return null;
@@ -51,7 +51,7 @@ const onlyLoggedInURLs = ['drafts', 'create', 'api/post', 'api/publish', 'api/up
 
 const checkToken = async (request: Request) => {
   console.log("check token ..");
-  console.log(`username is : ${getUsernameFromCookies}`)
+  //console.log(`username is : ${getUsernameFromCookies}`)
   //const loginCookie = request.cookies.get('loginDetails')
   // if (!loginCookie)
   //   return false;

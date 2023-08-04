@@ -106,6 +106,7 @@ const Draft: React.FC = () => {
             value={title}
           />
           <textarea
+            id = "content"
             cols={50}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Content"

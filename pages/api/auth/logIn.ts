@@ -5,7 +5,7 @@
 import cookie from "cookie";
 import type { NextApiRequest, NextApiResponse } from 'next'
 import prisma from '../../../lib/prisma'
-import {SignJWT} from 'jose'
+//import {SignJWT} from 'jose'
 import Cookies from 'js-cookie';
 
 
@@ -45,10 +45,11 @@ if(correctPass){
     //const jose = require('jose')
    // const jwt = require('jsonwebtoken')
     if(process.env.SECRET){
-      const token = await new SignJWT({... userForToken })
-                        .setProtectedHeader({ alg: 'HS256' })
-                        .setIssuedAt()
-                        .sign(new TextEncoder().encode(process.env.SECRET))
+      const token =null;
+   //    await new SignJWT({... userForToken })
+     //                   .setProtectedHeader({ alg: 'HS256' })
+       //                 .setIssuedAt()
+         //               .sign(new TextEncoder().encode(process.env.SECRET))
         // const cookieOptions = {
         //   name: "token",
         //   value: token,

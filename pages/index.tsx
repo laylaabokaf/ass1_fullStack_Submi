@@ -8,7 +8,6 @@ import { Pagination } from "../components/Pagination";
 import { Upload } from "../components/Upload";
 import Cookies from 'js-cookie';
 import { getCookie } from "cookies-next";
-import { jwtVerify } from "jose";
 import LogRocket from 'logrocket';
 LogRocket.init('bewg9k/posts-app');
 
